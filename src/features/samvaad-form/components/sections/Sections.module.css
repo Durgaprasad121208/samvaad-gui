@@ -186,7 +186,7 @@
    Section F — Suggestions
    -------------------------------------------------------------------------- */
 .suggestionGroup {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .suggestionGroup:last-child {
@@ -195,11 +195,12 @@
 
 .suggestionLabel {
   font-family: var(--font-mulish);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: var(--text-primary, #EEE7D9);
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.65rem;
   display: block;
+  line-height: 1.5;
 }
 
 /* --------------------------------------------------------------------------

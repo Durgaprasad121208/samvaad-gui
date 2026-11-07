@@ -11,9 +11,8 @@ export default function Home() {
     ratings: {},
     comments: {},
     suggestions: {
-      keepDoing: "",
-      improveArea: "",
-      leadershipThoughts: "",
+      startStopContinue: "",
+      otherComments: "",
     },
   });
 

@@ -40,6 +40,8 @@ export interface FormResponses {
   ratings: Record<number, RatingValue>;
   comments: Record<number, string>;
   suggestions: {
+    startStopContinue?: string;
+    otherComments?: string;
     keepDoing?: string;
     improveArea?: string;
     leadershipThoughts?: string;

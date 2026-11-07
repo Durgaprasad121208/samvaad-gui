@@ -22,9 +22,8 @@ export const Sections: React.FC<SectionsProps> = ({
     ratings: {},
     comments: {},
     suggestions: {
-      keepDoing: "",
-      improveArea: "",
-      leadershipThoughts: "",
+      startStopContinue: "",
+      otherComments: "",
     },
   });
 
@@ -192,53 +191,37 @@ export const Sections: React.FC<SectionsProps> = ({
       ))}
 
       {/* Section F — Your Suggestions */}
+      {/* Section F - Suggestions */}
       <Card className={styles.sectionCard} variant="borderless">
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Section F — Your Suggestions</h2>
-          <p className={styles.sectionSubtitle}>
-            What you share here helps us improve employee experience across the group.
-          </p>
         </div>
 
-        {/* Suggestion Prompt 1 */}
+        {/* Question 24 */}
         <div className={styles.suggestionGroup}>
           <label className={styles.suggestionLabel}>
-            What is one thing we do well and should continue doing?
+            24. What is one thing the organization should start, stop or continue doing to make this a better place to work?
           </label>
           <TextArea
-            rows={3}
-            placeholder="Share what works well for you or your team..."
+            rows={4}
+            maxLength={3000}
             className={styles.commentInput}
-            value={responses.suggestions.keepDoing || ""}
-            onChange={(e) => handleSuggestionChange("keepDoing", e.target.value)}
+            value={responses.suggestions.startStopContinue || ""}
+            onChange={(e) => handleSuggestionChange("startStopContinue", e.target.value)}
           />
         </div>
 
-        {/* Suggestion Prompt 2 */}
+        {/* Question 25 */}
         <div className={styles.suggestionGroup}>
           <label className={styles.suggestionLabel}>
-            What is one area where we can improve the most?
+            25. Any other comments or suggestions for your team, manager, leadership or HR &amp; Admin?
           </label>
           <TextArea
-            rows={3}
-            placeholder="Share your ideas or areas that need attention..."
+            rows={4}
+            maxLength={3000}
             className={styles.commentInput}
-            value={responses.suggestions.improveArea || ""}
-            onChange={(e) => handleSuggestionChange("improveArea", e.target.value)}
-          />
-        </div>
-
-        {/* Suggestion Prompt 3 */}
-        <div className={styles.suggestionGroup}>
-          <label className={styles.suggestionLabel}>
-            Any other thoughts, ideas or feedback for leadership?
-          </label>
-          <TextArea
-            rows={3}
-            placeholder="Any other comments or constructive suggestions..."
-            className={styles.commentInput}
-            value={responses.suggestions.leadershipThoughts || ""}
-            onChange={(e) => handleSuggestionChange("leadershipThoughts", e.target.value)}
+            value={responses.suggestions.otherComments || ""}
+            onChange={(e) => handleSuggestionChange("otherComments", e.target.value)}
           />
         </div>
       </Card>
