@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Card, Button, Input, App } from "antd";
+import { Card, Button, Input } from "antd";
 import { Send, CheckCircle } from "lucide-react";
 import enggisLogo from "@/assets/enggis-logo.png";
+import { notify } from "@/utils/notify";
 import { FEEDBACK_SECTIONS, RATING_NUMBERS } from "../../constants/questions";
 import type { FormResponses, RatingValue, SectionsProps } from "../../types";
 import styles from "./Sections.module.css";
@@ -21,7 +22,6 @@ const SectionsContent: React.FC<SectionsProps> = ({
   onSuggestionChange,
   onSubmit,
 }) => {
-  const { message } = App.useApp();
   const [internalResponses, setInternalResponses] = useState<FormResponses>({
     ratings: {},
     comments: {},
@@ -94,7 +94,7 @@ const SectionsContent: React.FC<SectionsProps> = ({
       setUnratedErrorIds(missingIds);
 
       const count = missingQuestions.length;
-      message.error(
+      notify.warning(
         `Please rate all 23 statements up to Section E before submitting (${count} statement${
           count > 1 ? "s" : ""
         } remaining). Comments are optional.`
@@ -110,7 +110,7 @@ const SectionsContent: React.FC<SectionsProps> = ({
 
     setIsSubmitted(true);
     onSubmit?.(responses);
-    message.success("Thank you for your feedback!");
+    notify.success("Thank you for your feedback!");
   };
 
   if (isSubmitted) {
@@ -325,11 +325,7 @@ const SectionsContent: React.FC<SectionsProps> = ({
 };
 
 export const Sections: React.FC<SectionsProps> = (props) => {
-  return (
-    <App component={false}>
-      <SectionsContent {...props} />
-    </App>
-  );
+  return <SectionsContent {...props} />;
 };
 
 export default Sections;

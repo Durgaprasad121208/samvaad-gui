@@ -5,6 +5,7 @@ import { ConfigProvider, App, theme } from "antd";
 import { HeroSection } from "@/features/samvaad-form/components/hero-section";
 import { AboutSection } from "@/features/samvaad-form/components/about-section";
 import { Sections } from "@/features/samvaad-form/components/sections";
+import { NotificationProvider } from "@/utils/notify";
 import type { FormResponses, RatingValue } from "@/features/samvaad-form/types";
 
 export default function Home() {
@@ -54,20 +55,44 @@ export default function Home() {
         algorithm: theme.darkAlgorithm,
         token: {
           colorPrimary: "#F7A329",
+          colorWarning: "#F7A329",
+          colorSuccess: "#4BC6C6",
+          colorError: "#EF4444",
+          colorInfo: "#E5B151",
+          colorBgElevated: "#0D192F",
+          colorText: "#EEE7D9",
+          colorTextHeading: "#EEE7D9",
+          colorBorder: "rgba(238, 231, 217, 0.12)",
+          fontFamily: "var(--font-mulish), system-ui, -apple-system, sans-serif",
+        },
+        components: {
+          Notification: {
+            colorBgElevated: "#0D192F",
+            colorText: "#EEE7D9",
+            colorTextHeading: "#EEE7D9",
+            borderRadiusLG: 14,
+          },
+          Message: {
+            contentBg: "#0D192F",
+            colorText: "#EEE7D9",
+            borderRadiusLG: 9999,
+          },
         },
       }}
     >
       <App>
-        <main style={{ minHeight: "100vh", backgroundColor: "var(--bg-page, #050E21)" }}>
-          <HeroSection completedQuestions={completedQuestions} totalQuestions={23} />
-          <AboutSection />
-          <Sections
-            responses={responses}
-            onRatingChange={handleRatingChange}
-            onCommentChange={handleCommentChange}
-            onSuggestionChange={handleSuggestionChange}
-          />
-        </main>
+        <NotificationProvider>
+          <main style={{ minHeight: "100vh", backgroundColor: "var(--bg-page, #050E21)" }}>
+            <HeroSection completedQuestions={completedQuestions} totalQuestions={23} />
+            <AboutSection />
+            <Sections
+              responses={responses}
+              onRatingChange={handleRatingChange}
+              onCommentChange={handleCommentChange}
+              onSuggestionChange={handleSuggestionChange}
+            />
+          </main>
+        </NotificationProvider>
       </App>
     </ConfigProvider>
   );

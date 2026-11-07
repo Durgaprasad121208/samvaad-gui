@@ -83,3 +83,97 @@ select {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+/* ==========================================================================
+   Samvaad Theme-Styled Notifications & Toast Messages (InventX Aesthetic)
+   ========================================================================== */
+
+/* Notification Cards (Corner Toasts) */
+.ant-notification .ant-notification-notice,
+.samvaad-notification.ant-notification-notice {
+  background: linear-gradient(135deg, rgba(13, 25, 47, 0.96) 0%, rgba(9, 18, 36, 0.98) 100%) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 1px rgba(238, 231, 217, 0.25) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  padding: 16px 20px !important;
+  color: var(--text-primary, #EEE7D9) !important;
+  font-family: var(--font-mulish), system-ui, -apple-system, sans-serif !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(238, 231, 217, 0.14) !important;
+}
+
+/* Warning variant */
+.ant-notification .ant-notification-notice-warning,
+.samvaad-notification-warning {
+  border: 1px solid rgba(247, 163, 41, 0.45) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(247, 163, 41, 0.16) !important;
+}
+
+/* Success variant */
+.ant-notification .ant-notification-notice-success,
+.samvaad-notification-success {
+  border: 1px solid rgba(75, 198, 198, 0.45) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(75, 198, 198, 0.18) !important;
+}
+
+/* Error variant */
+.ant-notification .ant-notification-notice-error,
+.samvaad-notification-error {
+  border: 1px solid rgba(239, 68, 68, 0.45) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(239, 68, 68, 0.18) !important;
+}
+
+/* Info variant */
+.ant-notification .ant-notification-notice-info,
+.samvaad-notification-info {
+  border: 1px solid rgba(229, 177, 81, 0.45) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(229, 177, 81, 0.16) !important;
+}
+
+/* Notification Title / Message Text */
+.ant-notification .ant-notification-notice-title,
+.ant-notification .ant-notification-notice-message {
+  font-family: var(--font-mulish), system-ui, -apple-system, sans-serif !important;
+  color: var(--text-primary, #EEE7D9) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  line-height: 1.55 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0 !important;
+}
+
+/* Notification Description Text */
+.ant-notification .ant-notification-notice-description {
+  font-family: var(--font-mulish), system-ui, -apple-system, sans-serif !important;
+  color: rgba(238, 231, 217, 0.78) !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  margin-top: 4px !important;
+}
+
+/* Close icon */
+.ant-notification .ant-notification-notice-close {
+  color: rgba(238, 231, 217, 0.45) !important;
+  top: 16px !important;
+  right: 16px !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+}
+
+.ant-notification .ant-notification-notice-close:hover {
+  color: #EEE7D9 !important;
+  transform: scale(1.1) !important;
+}
+
+/* Toast Pill Messages (antd `message`) */
+.ant-message .ant-message-notice-content {
+  background: linear-gradient(135deg, rgba(13, 25, 47, 0.96) 0%, rgba(9, 18, 36, 0.98) 100%) !important;
+  border: 1px solid rgba(238, 231, 217, 0.16) !important;
+  color: var(--text-primary, #EEE7D9) !important;
+  font-family: var(--font-mulish), system-ui, -apple-system, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 12px rgba(247, 163, 41, 0.12) !important;
+  padding: 9px 18px !important;
+}
