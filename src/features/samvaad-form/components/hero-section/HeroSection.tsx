@@ -82,32 +82,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Top Strip Gradient: Gold -> Saffron -> Teal */}
         <div className={styles.topStrip} role="presentation" />
 
-        {/* Top Navigation Row: Enggis Logo */}
-        <div className={styles.topNav}>
-          <div className={styles.enggisLogoBox} title="Enggis Group of Companies">
-            <Image
-              src={enggisLogo}
-              alt="Enggis Group of Companies"
-              width={48}
-              height={48}
-              className={styles.enggisLogoImg}
-              priority
-            />
-          </div>
-        </div>
-
         {/* Main Hero Center Content */}
         <div className={styles.heroContent}>
-          {/* Samvaad Logo */}
-          <div className={styles.logoWrapper}>
-            <Image
-              src={samvaadLogo}
-              alt="Samvaad - A Feedback Forum to Build Culture & Fuel Growth"
-              className={styles.samvaadLogo}
-              priority
-              width={380}
-              height={130}
-            />
+          {/* Brand Logos Row - Side by Side */}
+          <div className={styles.brandLogosRow}>
+            <div className={styles.samvaadLogoBox}>
+              <Image
+                src={samvaadLogo}
+                alt="Samvaad - A Feedback Forum to Build Culture & Fuel Growth"
+                className={styles.samvaadLogo}
+                priority
+                width={280}
+                height={95}
+              />
+            </div>
+
+            <div className={styles.logoDivider} aria-hidden="true" />
+
+            <div className={styles.enggisLogoBox} title="Enggis Group of Companies">
+              <Image
+                src={enggisLogo}
+                alt="Enggis Group of Companies"
+                width={52}
+                height={52}
+                className={styles.enggisLogoImg}
+                priority
+              />
+            </div>
           </div>
 
           {/* Title */}
