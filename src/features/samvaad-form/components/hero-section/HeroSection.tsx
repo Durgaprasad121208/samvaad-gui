@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Progress, ConfigProvider } from "antd";
 import { ShieldCheck, Clock } from "lucide-react";
+import enggisMark from "@/assets/enggis-mark.png";
 import samvaadLogo from "@/assets/samvaad-logo-dark.png";
 import type { HeroSectionProps } from "../../types";
 import styles from "./HeroSection.module.css";
@@ -84,24 +85,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Top Navigation Row: Enggis Badge */}
         <div className={styles.topNav}>
           <div className={styles.initiativeBadge}>
-            <div className={styles.enggisLogoMark} aria-hidden="true">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="24" height="24" rx="4.5" fill="#1A4CA0" />
-                <path
-                  d="M6.5 6H17.5M6.5 12H15M6.5 18H17.5"
-                  stroke="#FDFAF4"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            <Image
+              src={enggisMark}
+              alt="Enggis"
+              width={24}
+              height={24}
+              className={styles.enggisMarkImg}
+              priority
+            />
             <span className={styles.initiativeText}>{initiativeText}</span>
           </div>
         </div>
