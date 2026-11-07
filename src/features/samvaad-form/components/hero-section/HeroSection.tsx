@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Progress, ConfigProvider } from "antd";
 import { ShieldCheck, Clock } from "lucide-react";
-import enggisMark from "@/assets/enggis-mark.png";
+import enggisLogo from "@/assets/enggis-logo.png";
 import samvaadLogo from "@/assets/samvaad-logo-dark.png";
 import type { HeroSectionProps } from "../../types";
 import styles from "./HeroSection.module.css";
@@ -82,18 +82,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Top Strip Gradient: Gold -> Saffron -> Teal */}
         <div className={styles.topStrip} role="presentation" />
 
-        {/* Top Navigation Row: Enggis Badge */}
+        {/* Top Navigation Row: Enggis Logo */}
         <div className={styles.topNav}>
-          <div className={styles.initiativeBadge}>
+          <div className={styles.enggisLogoBox} title="Enggis Group of Companies">
             <Image
-              src={enggisMark}
-              alt="Enggis"
-              width={24}
-              height={24}
-              className={styles.enggisMarkImg}
+              src={enggisLogo}
+              alt="Enggis Group of Companies"
+              width={48}
+              height={48}
+              className={styles.enggisLogoImg}
               priority
             />
-            <span className={styles.initiativeText}>{initiativeText}</span>
           </div>
         </div>
 
