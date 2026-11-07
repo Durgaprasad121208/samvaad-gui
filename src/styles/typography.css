@@ -1,0 +1,169 @@
+/* ==========================================================================
+   Typography Rules & Utilities
+   Fraunces (Serif display, falls back to Georgia)
+   Mulish (Clean sans, falls back to system-ui)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Body & Base Typography (Default: Mulish)
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-regular);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* All body copy defaults to Mulish */
+p,
+span,
+div,
+li,
+input,
+textarea,
+select,
+button,
+label {
+  font-family: var(--font-mulish);
+}
+
+/* --------------------------------------------------------------------------
+   Fraunces Headings & Display Elements (Weights: 600, 700)
+   - Page title "Employee Feedback Forum"
+   - Every section heading
+   - The question numbers
+   - "Thank you!"
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-fraunces,
+.page-title,
+.section-heading,
+.question-number,
+.thank-you,
+.thank-you-title {
+  font-family: var(--font-fraunces);
+  font-feature-settings: "liga" 1, "kern" 1;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+/* Specific elements using Fraunces */
+.page-title,
+h1.page-title {
+  font-family: var(--font-fraunces);
+  font-weight: var(--weight-bold); /* 700 */
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  letter-spacing: -0.02em;
+}
+
+.section-heading,
+h2.section-heading,
+h3.section-heading {
+  font-family: var(--font-fraunces);
+  font-weight: var(--weight-semibold); /* 600 */
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  letter-spacing: -0.01em;
+}
+
+/* Question numbers (Fraunces 600 / 700) */
+.question-number,
+.q-number {
+  font-family: var(--font-fraunces);
+  font-weight: var(--weight-bold); /* 700 */
+  font-size: 1.25rem;
+  color: var(--accent-saffron);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* "Thank you!" title */
+.thank-you,
+.thank-you-title {
+  font-family: var(--font-fraunces);
+  font-weight: var(--weight-bold); /* 700 */
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Mulish Elements (Weights: 400, 600, 700)
+   - All body copy (400)
+   - Labels (600)
+   - Answer buttons (600 / 700)
+   - Comment boxes (400)
+   - The Submit button (700)
+   - Pillar labels (Teal #4BC6C6, 600/700)
+   -------------------------------------------------------------------------- */
+.font-mulish {
+  font-family: var(--font-mulish);
+}
+
+/* Body Copy */
+.body-copy,
+p {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-regular); /* 400 */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Labels */
+label,
+.form-label,
+.field-label {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-semibold); /* 600 */
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  display: block;
+}
+
+/* Answer buttons */
+.btn-answer,
+.answer-btn,
+.choice-btn {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-semibold); /* 600 */
+  font-size: 0.9375rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Comment boxes / textareas / inputs */
+.comment-box,
+textarea,
+input[type="text"],
+input[type="email"] {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-regular); /* 400 */
+  font-size: 0.9375rem;
+}
+
+/* Submit button */
+.btn-submit,
+button[type="submit"].btn-submit {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-bold); /* 700 */
+  font-size: 1.0625rem;
+  letter-spacing: 0.02em;
+}
+
+/* Pillar labels (Teal #4BC6C6) */
+.pillar-label,
+.pill-pillar {
+  font-family: var(--font-mulish);
+  font-weight: var(--weight-bold); /* 700 */
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-teal); /* Teal #4BC6C6 */
+}

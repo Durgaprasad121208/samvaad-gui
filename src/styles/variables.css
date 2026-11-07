@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Design Tokens & CSS Variables
+   Enggis Samvaad - Employee Feedback Forum
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     Typography Families & Weights
+     ========================================================================== */
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-mulish: 'Mulish', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Font Weights */
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ==========================================================================
+     Top Strip Gradient (Persistent across themes)
+     Gold #E5B151 -> Saffron #F7A329 -> Teal #4BC6C6
+     ========================================================================== */
+  --color-gold: #E5B151;
+  --color-saffron: #F7A329;
+  --color-saffron-hover: #e5931e;
+  --color-saffron-active: #d48212;
+  --color-teal: #4BC6C6;
+  --color-teal-hover: #3eb5b5;
+
+  --gradient-top-strip: linear-gradient(90deg, #E5B151 0%, #F7A329 50%, #4BC6C6 100%);
+
+  /* ==========================================================================
+     Badge & Footer Accent Panel
+     Enggis badge + footer logo panel: Cream #FDFAF4
+     ========================================================================== */
+  --color-cream-badge: #FDFAF4;
+  --color-badge-text: #0C1D40;
+
+  /* ==========================================================================
+     LIVE THEME: DARK PALETTE (Default Active)
+     ========================================================================== */
+  /* Surfaces */
+  --bg-page: #050E21;              /* Deep navy page background */
+  --bg-card: #0D192F;              /* Navy cards / question panels */
+  --bg-tile: #19253B;              /* Navy rating legend tiles, comment boxes */
+  --bg-pill: #1A273F;              /* Navy "Anonymous & confidential" / "About 10 min" pills */
+  --bg-badge-enggis: #FDFAF4;       /* Cream Enggis badge + footer logo panel */
+  --text-badge-enggis: #0C1D40;     /* Deep navy text on cream badge */
+
+  /* Text Colors */
+  --text-primary: #EEE7D9;          /* Warm cream */
+  --text-secondary: rgba(238, 231, 217, 0.75);
+  --text-muted: rgba(238, 231, 217, 0.55);
+
+  /* Accents & Interactions */
+  --accent-saffron: #F7A329;        /* Selected answers & Submit button */
+  --accent-saffron-text: #050E21;   /* High-contrast text on saffron */
+  --accent-teal: #4BC6C6;           /* Pillar labels */
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(238, 231, 217, 0.12);
+  --border-card: rgba(238, 231, 217, 0.08);
+  --border-focus: #F7A329;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-glow-saffron: 0 0 16px rgba(247, 163, 41, 0.35);
+}
+
+/* ==========================================================================
+   LIGHT PALETTE (Preserved from earlier version, switched off by default)
+   Activate via data-theme="light" or .theme-light
+   ========================================================================== */
+[data-theme="light"],
+.theme-light {
+  /* Surfaces */
+  --bg-page: #FDF9F0;              /* Cream background */
+  --bg-card: #FFFFFF;              /* White cards / question panels */
+  --bg-tile: #F4EFE6;              /* Soft cream rating legend tiles, comment boxes */
+  --bg-pill: #EFE9DC;              /* Soft pill surface */
+  --bg-badge-enggis: #FDFAF4;       /* Cream Enggis badge */
+  --text-badge-enggis: #0C1D40;
+
+  /* Text Colors */
+  --text-primary: #0C1D40;          /* Navy headings & primary text */
+  --text-secondary: rgba(12, 29, 64, 0.75);
+  --text-muted: rgba(12, 29, 64, 0.55);
+
+  /* Accents & Interactions */
+  --accent-saffron: #F7A329;
+  --accent-saffron-text: #050E21;
+  --accent-teal: #4BC6C6;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(12, 29, 64, 0.12);
+  --border-card: rgba(12, 29, 64, 0.08);
+  --border-focus: #F7A329;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(12, 29, 64, 0.06);
+  --shadow-glow-saffron: 0 0 16px rgba(247, 163, 41, 0.25);
+}
