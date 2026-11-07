@@ -21,6 +21,7 @@ export interface AboutSectionProps {
 export interface QuestionItem {
   id: number;
   number: string;
+  category: string;
   text: string;
 }
 

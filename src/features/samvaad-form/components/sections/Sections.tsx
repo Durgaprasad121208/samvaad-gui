@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Card, Button, Input, message } from "antd";
-import { Send, CheckCircle, MessageSquare } from "lucide-react";
+import { Send, CheckCircle } from "lucide-react";
 import enggisLogo from "@/assets/enggis-logo.png";
-import { FEEDBACK_SECTIONS, RATING_OPTIONS } from "../../constants/questions";
+import { FEEDBACK_SECTIONS, RATING_NUMBERS } from "../../constants/questions";
 import type { FormResponses, RatingValue, SectionsProps } from "../../types";
 import styles from "./Sections.module.css";
 
@@ -28,7 +28,6 @@ export const Sections: React.FC<SectionsProps> = ({
     },
   });
 
-  const [activeComments, setActiveComments] = useState<Record<number, boolean>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const responses = propResponses || internalResponses;
@@ -75,10 +74,6 @@ export const Sections: React.FC<SectionsProps> = ({
     onSuggestionChange?.(field, value);
   };
 
-  const toggleCommentBox = (questionId: number) => {
-    setActiveComments((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
-  };
-
   const totalAnswered = Object.keys(responses.ratings).length;
 
   const handleSubmit = () => {
@@ -117,12 +112,11 @@ export const Sections: React.FC<SectionsProps> = ({
 
   return (
     <div className={styles.sectionsContainer}>
-      {/* Sections A to E (Rating Questions) */}
+      {/* Sections A to E (Rating Questions matching screenshot design) */}
       {FEEDBACK_SECTIONS.map((section) => (
         <Card key={section.id} className={styles.sectionCard} variant="borderless">
           {/* Header */}
           <div className={styles.sectionHeader}>
-            <span className={styles.pillarLabel}>{section.pillar}</span>
             <h2 className={styles.sectionTitle}>{section.title}</h2>
             <p className={styles.sectionSubtitle}>{section.subtitle}</p>
           </div>
@@ -131,57 +125,69 @@ export const Sections: React.FC<SectionsProps> = ({
           <div className={styles.questionList}>
             {section.questions.map((q) => {
               const selectedRating = responses.ratings[q.id];
-              const showComment = activeComments[q.id] || Boolean(responses.comments[q.id]);
 
               return (
                 <div key={q.id} className={styles.questionItem}>
-                  {/* Question Title & Number */}
-                  <div className={styles.questionHeader}>
+                  {/* Question Meta: Number (Saffron Fraunces) & Category Tag (Teal Mulish) */}
+                  <div className={styles.questionMeta}>
                     <span className={styles.questionNumber}>{q.number}</span>
-                    <h3 className={styles.questionText}>{q.text}</h3>
+                    <span className={styles.questionCategory}>{q.category}</span>
                   </div>
 
-                  {/* Rating Options */}
-                  <div className={styles.ratingRow} role="radiogroup" aria-label={`Rating for question ${q.number}`}>
-                    {RATING_OPTIONS.map((opt) => {
-                      const isSelected = selectedRating === opt.value;
-                      return (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          role="radio"
-                          aria-checked={isSelected}
-                          className={`${styles.ratingBtn} ${isSelected ? styles.ratingBtnSelected : ""}`}
-                          onClick={() => handleRatingSelect(q.id, opt.value as RatingValue)}
-                        >
-                          <span className={styles.ratingValue}>{opt.short}</span>
-                          <span className={styles.ratingDesc}>{opt.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                  {/* Statement Text */}
+                  <h3 className={styles.questionText}>{q.text}</h3>
 
-                  {/* Optional Comment Toggle */}
-                  {!showComment ? (
-                    <button
-                      type="button"
-                      className={styles.commentToggle}
-                      onClick={() => toggleCommentBox(q.id)}
-                    >
-                      <MessageSquare size={13} />
-                      <span>Add a note (optional)</span>
-                    </button>
-                  ) : (
-                    <div className={styles.commentTextareaWrapper}>
-                      <TextArea
-                        rows={2}
-                        placeholder="Share specific context or examples (avoid naming individuals)..."
-                        className={styles.customTextarea}
-                        value={responses.comments[q.id] || ""}
-                        onChange={(e) => handleCommentChange(q.id, e.target.value)}
-                      />
+                  {/* Rating Controls: Row 1 = 5, 4, 3, 2, 1; Row 2 = N/A */}
+                  <div
+                    className={styles.ratingControls}
+                    role="radiogroup"
+                    aria-label={`Rating for question ${q.number}`}
+                  >
+                    <div className={styles.ratingNumbersRow}>
+                      {RATING_NUMBERS.map((num) => {
+                        const isSelected = selectedRating === num;
+                        return (
+                          <button
+                            key={num}
+                            type="button"
+                            role="radio"
+                            aria-checked={isSelected}
+                            className={`${styles.ratingTileBtn} ${
+                              isSelected ? styles.ratingTileBtnSelected : ""
+                            }`}
+                            onClick={() => handleRatingSelect(q.id, num as RatingValue)}
+                          >
+                            {num}
+                          </button>
+                        );
+                      })}
                     </div>
-                  )}
+
+                    <div>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={selectedRating === "N/A"}
+                        className={`${styles.ratingTileBtn} ${styles.naBtn} ${
+                          selectedRating === "N/A" ? styles.ratingTileBtnSelected : ""
+                        }`}
+                        onClick={() => handleRatingSelect(q.id, "N/A")}
+                      >
+                        N/A
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Comments Box: Always visible single-line expandable input */}
+                  <div className={styles.commentBoxWrapper}>
+                    <TextArea
+                      autoSize={{ minRows: 1, maxRows: 4 }}
+                      placeholder="Comments (optional)"
+                      className={styles.commentInput}
+                      value={responses.comments[q.id] || ""}
+                      onChange={(e) => handleCommentChange(q.id, e.target.value)}
+                    />
+                  </div>
                 </div>
               );
             })}
@@ -192,7 +198,6 @@ export const Sections: React.FC<SectionsProps> = ({
       {/* Section F — Your Suggestions */}
       <Card className={styles.sectionCard} variant="borderless">
         <div className={styles.sectionHeader}>
-          <span className={styles.pillarLabel}>SUGGESTIONS</span>
           <h2 className={styles.sectionTitle}>Section F — Your Suggestions</h2>
           <p className={styles.sectionSubtitle}>
             What you share here helps us improve employee experience across the group.
@@ -207,7 +212,7 @@ export const Sections: React.FC<SectionsProps> = ({
           <TextArea
             rows={3}
             placeholder="Share what works well for you or your team..."
-            className={styles.customTextarea}
+            className={styles.commentInput}
             value={responses.suggestions.keepDoing || ""}
             onChange={(e) => handleSuggestionChange("keepDoing", e.target.value)}
           />
@@ -221,7 +226,7 @@ export const Sections: React.FC<SectionsProps> = ({
           <TextArea
             rows={3}
             placeholder="Share your ideas or areas that need attention..."
-            className={styles.customTextarea}
+            className={styles.commentInput}
             value={responses.suggestions.improveArea || ""}
             onChange={(e) => handleSuggestionChange("improveArea", e.target.value)}
           />
@@ -235,7 +240,7 @@ export const Sections: React.FC<SectionsProps> = ({
           <TextArea
             rows={3}
             placeholder="Any other comments or constructive suggestions..."
-            className={styles.customTextarea}
+            className={styles.commentInput}
             value={responses.suggestions.leadershipThoughts || ""}
             onChange={(e) => handleSuggestionChange("leadershipThoughts", e.target.value)}
           />
