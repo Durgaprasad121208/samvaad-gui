@@ -19,6 +19,7 @@ const SectionsContent: React.FC<SectionsProps> = ({
   responses: propResponses,
   aboutValues,
   isSubmitting = false,
+  isSubmitted: propIsSubmitted,
   onRatingChange,
   onCommentChange,
   onSuggestionChange,
@@ -33,7 +34,8 @@ const SectionsContent: React.FC<SectionsProps> = ({
     },
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [internalIsSubmitted, setInternalIsSubmitted] = useState(false);
+  const isSubmitted = propIsSubmitted !== undefined ? propIsSubmitted : internalIsSubmitted;
   const [unratedErrorIds, setUnratedErrorIds] = useState<number[]>([]);
 
   const responses = propResponses || internalResponses;
@@ -132,10 +134,10 @@ const SectionsContent: React.FC<SectionsProps> = ({
     if (onSubmit) {
       const result = await onSubmit(responses);
       if (result !== false) {
-        setIsSubmitted(true);
+        setInternalIsSubmitted(true);
       }
     } else {
-      setIsSubmitted(true);
+      setInternalIsSubmitted(true);
       notify.success("Thank you for your feedback!");
     }
   };

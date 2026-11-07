@@ -4,6 +4,7 @@ export interface HeroSectionProps {
   initiativeText?: string;
   title?: string;
   description?: string;
+  isSubmitted?: boolean;
 }
 
 export interface AboutYouValues {
@@ -78,6 +79,7 @@ export interface SectionsProps {
   responses?: FormResponses;
   aboutValues?: AboutYouValues;
   isSubmitting?: boolean;
+  isSubmitted?: boolean;
   onRatingChange?: (questionId: number, rating: RatingValue) => void;
   onCommentChange?: (questionId: number, comment: string) => void;
   onSuggestionChange?: (field: keyof FormResponses["suggestions"], value: string) => void;

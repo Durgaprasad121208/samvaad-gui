@@ -12,9 +12,9 @@ import styles from "./HeroSection.module.css";
 export const HeroSection: React.FC<HeroSectionProps> = ({
   completedQuestions = 0,
   totalQuestions = 23,
-  initiativeText = "An Enggis Group of Companies initiative",
   title = "Employee Feedback Forum",
   description = "A dedicated channel to share feedback on the pillars of our Business Excellence Framework. Your feedback helps us improve employee experience, strengthen HR practices, and build a better workplace. Please avoid naming individuals in written responses.",
+  isSubmitted = false,
 }) => {
   const percent = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
 
@@ -23,6 +23,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const inlineProgressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isSubmitted) return;
+
     const handleScroll = () => {
       if (inlineProgressRef.current) {
         const rect = inlineProgressRef.current.getBoundingClientRect();
@@ -35,48 +37,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isSubmitted]);
 
   return (
     <>
-      {/* Fixed Sticky Header - Visible only when scrolling UP */}
-      <div
-        className={`${styles.stickyScrollHeader} ${
-          isStickyVisible ? styles.stickyScrollHeaderVisible : ""
-        }`}
-        aria-hidden={!isStickyVisible}
-      >
-        <div className={styles.topStrip} role="presentation" />
-        <div className={styles.stickyInnerContainer}>
-          <div className={styles.progressBarWrapper}>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Progress: {
-                    defaultColor: "#F7A329",
-                    remainingColor: "#243147",
+      {/* Fixed Sticky Header - Visible only when scrolling and not submitted */}
+      {!isSubmitted && (
+        <div
+          className={`${styles.stickyScrollHeader} ${
+            isStickyVisible ? styles.stickyScrollHeaderVisible : ""
+          }`}
+          aria-hidden={!isStickyVisible}
+        >
+          <div className={styles.topStrip} role="presentation" />
+          <div className={styles.stickyInnerContainer}>
+            <div className={styles.progressBarWrapper}>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Progress: {
+                      defaultColor: "#F7A329",
+                      remainingColor: "#243147",
+                    },
                   },
-                },
-              }}
-            >
-              <Progress
-                percent={percent}
-                showInfo={false}
-                strokeColor={{
-                  "0%": "#E5B151",
-                  "50%": "#F7A329",
-                  "100%": "#4BC6C6",
                 }}
-                railColor="#243147"
-                size={["100%", 8]}
-              />
-            </ConfigProvider>
+              >
+                <Progress
+                  percent={percent}
+                  showInfo={false}
+                  strokeColor={{
+                    "0%": "#E5B151",
+                    "50%": "#F7A329",
+                    "100%": "#4BC6C6",
+                  }}
+                  railColor="#243147"
+                  size={["100%", 8]}
+                />
+              </ConfigProvider>
+            </div>
+            <span className={styles.progressLabel}>
+              {completedQuestions}/{totalQuestions}
+            </span>
           </div>
-          <span className={styles.progressLabel}>
-            {completedQuestions}/{totalQuestions}
-          </span>
         </div>
-      </div>
+      )}
 
       <header className={styles.heroWrapper} aria-label="Samvaad Hero Section">
         {/* Top Strip Gradient: Gold -> Saffron -> Teal */}
@@ -117,48 +121,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Description */}
           <p className={styles.description}>{description}</p>
 
-          {/* Badges / Pills */}
-          <div className={styles.pillsRow}>
-            <div className={styles.pillItem}>
-              <ShieldCheck className={styles.pillIconTeal} size={16} strokeWidth={2.2} />
-              <span>Anonymous &amp; confidential</span>
-            </div>
-            <div className={styles.pillItem}>
-              <Clock className={styles.pillIconSaffron} size={16} strokeWidth={2.2} />
-              <span>About 10 minutes</span>
-            </div>
-          </div>
+          {/* Badges & Progress bar - Hidden after submission */}
+          {!isSubmitted && (
+            <>
+              {/* Badges / Pills */}
+              <div className={styles.pillsRow}>
+                <div className={styles.pillItem}>
+                  <ShieldCheck className={styles.pillIconTeal} size={16} strokeWidth={2.2} />
+                  <span>Anonymous &amp; confidential</span>
+                </div>
+                <div className={styles.pillItem}>
+                  <Clock className={styles.pillIconSaffron} size={16} strokeWidth={2.2} />
+                  <span>About 10 minutes</span>
+                </div>
+              </div>
 
-          {/* Default Inline Progress Bar (at normal hero position) */}
-          <div ref={inlineProgressRef} className={styles.progressContainer}>
-            <div className={styles.progressBarWrapper}>
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Progress: {
-                      defaultColor: "#F7A329",
-                      remainingColor: "#243147",
-                    },
-                  },
-                }}
-              >
-                <Progress
-                  percent={percent}
-                  showInfo={false}
-                  strokeColor={{
-                    "0%": "#E5B151",
-                    "50%": "#F7A329",
-                    "100%": "#4BC6C6",
-                  }}
-                  railColor="#243147"
-                  size={["100%", 8]}
-                />
-              </ConfigProvider>
-            </div>
-            <span className={styles.progressLabel}>
-              {completedQuestions}/{totalQuestions}
-            </span>
-          </div>
+              {/* Default Inline Progress Bar (at normal hero position) */}
+              <div ref={inlineProgressRef} className={styles.progressContainer}>
+                <div className={styles.progressBarWrapper}>
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        Progress: {
+                          defaultColor: "#F7A329",
+                          remainingColor: "#243147",
+                        },
+                      },
+                    }}
+                  >
+                    <Progress
+                      percent={percent}
+                      showInfo={false}
+                      strokeColor={{
+                        "0%": "#E5B151",
+                        "50%": "#F7A329",
+                        "100%": "#4BC6C6",
+                      }}
+                      railColor="#243147"
+                      size={["100%", 8]}
+                    />
+                  </ConfigProvider>
+                </div>
+                <span className={styles.progressLabel}>
+                  {completedQuestions}/{totalQuestions}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </header>
     </>

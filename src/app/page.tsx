@@ -35,6 +35,7 @@ export default function Home() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleAboutChange = (field: keyof AboutYouValues, value: string) => {
     setAboutValues((prev) => ({ ...prev, [field]: value }));
@@ -77,6 +78,10 @@ export default function Home() {
 
       if (result?.success) {
         notify.success(result.message || "Thank you for your feedback!");
+        setIsSubmitted(true);
+        if (typeof window !== "undefined") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
         return true;
       } else {
         notify.error(result?.message || "Failed to submit feedback. Please try again.");
@@ -128,12 +133,19 @@ export default function Home() {
       <App>
         <NotificationProvider>
           <main style={{ minHeight: "100vh", backgroundColor: "var(--bg-page, #050E21)" }}>
-            <HeroSection completedQuestions={completedQuestions} totalQuestions={23} />
-            <AboutSection values={aboutValues} onChange={handleAboutChange} />
+            <HeroSection
+              completedQuestions={completedQuestions}
+              totalQuestions={23}
+              isSubmitted={isSubmitted}
+            />
+            {!isSubmitted && (
+              <AboutSection values={aboutValues} onChange={handleAboutChange} />
+            )}
             <Sections
               responses={responses}
               aboutValues={aboutValues}
               isSubmitting={isSubmitting}
+              isSubmitted={isSubmitted}
               onRatingChange={handleRatingChange}
               onCommentChange={handleCommentChange}
               onSuggestionChange={handleSuggestionChange}
