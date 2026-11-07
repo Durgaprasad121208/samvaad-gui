@@ -17,29 +17,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   const percent = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
 
-  // Track scroll direction for "scroll-up only" fixed progress header
+  // Keep fixed progress bar visible whenever scrolled past the hero (both scrolling down and up)
   const [isStickyVisible, setIsStickyVisible] = useState(false);
-  const lastScrollY = useRef(0);
+  const inlineProgressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Only activate after scrolling past the hero header (~280px)
-      if (currentScrollY <= 260) {
-        setIsStickyVisible(false);
-      } else if (currentScrollY < lastScrollY.current) {
-        // Scrolling UP -> reveal sticky progress bar at top
-        setIsStickyVisible(true);
+      if (inlineProgressRef.current) {
+        const rect = inlineProgressRef.current.getBoundingClientRect();
+        setIsStickyVisible(rect.bottom < 0);
       } else {
-        // Scrolling DOWN -> hide sticky progress bar
-        setIsStickyVisible(false);
+        setIsStickyVisible(window.scrollY > 350);
       }
-
-      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -146,7 +139,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Default Inline Progress Bar (at normal hero position) */}
-          <div className={styles.progressContainer}>
+          <div ref={inlineProgressRef} className={styles.progressContainer}>
             <div className={styles.progressBarWrapper}>
               <ConfigProvider
                 theme={{
