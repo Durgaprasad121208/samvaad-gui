@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Card, Button, Input, message } from "antd";
+import { Card, Button, Input, App } from "antd";
 import { Send, CheckCircle } from "lucide-react";
 import enggisLogo from "@/assets/enggis-logo.png";
 import { FEEDBACK_SECTIONS, RATING_NUMBERS } from "../../constants/questions";
@@ -11,13 +11,17 @@ import styles from "./Sections.module.css";
 
 const { TextArea } = Input;
 
-export const Sections: React.FC<SectionsProps> = ({
+const ALL_REQUIRED_QUESTIONS = FEEDBACK_SECTIONS.flatMap((s) => s.questions);
+const TOTAL_REQUIRED_STATEMENTS = ALL_REQUIRED_QUESTIONS.length;
+
+const SectionsContent: React.FC<SectionsProps> = ({
   responses: propResponses,
   onRatingChange,
   onCommentChange,
   onSuggestionChange,
   onSubmit,
 }) => {
+  const { message } = App.useApp();
   const [internalResponses, setInternalResponses] = useState<FormResponses>({
     ratings: {},
     comments: {},
@@ -28,6 +32,7 @@ export const Sections: React.FC<SectionsProps> = ({
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [unratedErrorIds, setUnratedErrorIds] = useState<number[]>([]);
 
   const responses = propResponses || internalResponses;
 
@@ -45,6 +50,10 @@ export const Sections: React.FC<SectionsProps> = ({
         }
         return { ...prev, ratings: nextRatings };
       });
+    }
+
+    if (newRating) {
+      setUnratedErrorIds((prev) => prev.filter((id) => id !== questionId));
     }
 
     onRatingChange?.(questionId, newRating);
@@ -76,8 +85,26 @@ export const Sections: React.FC<SectionsProps> = ({
   const totalAnswered = Object.keys(responses.ratings).length;
 
   const handleSubmit = () => {
-    if (totalAnswered === 0) {
-      message.warning("Please answer at least one statement before submitting.");
+    const missingQuestions = ALL_REQUIRED_QUESTIONS.filter(
+      (q) => !responses.ratings[q.id]
+    );
+
+    if (missingQuestions.length > 0) {
+      const missingIds = missingQuestions.map((q) => q.id);
+      setUnratedErrorIds(missingIds);
+
+      const count = missingQuestions.length;
+      message.error(
+        `Please rate all 23 statements up to Section E before submitting (${count} statement${
+          count > 1 ? "s" : ""
+        } remaining). Comments are optional.`
+      );
+
+      const firstMissingId = missingQuestions[0].id;
+      const targetElement = document.getElementById(`question-item-${firstMissingId}`);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       return;
     }
 
@@ -124,17 +151,38 @@ export const Sections: React.FC<SectionsProps> = ({
           <div className={styles.questionList}>
             {section.questions.map((q) => {
               const selectedRating = responses.ratings[q.id];
+              const hasError = unratedErrorIds.includes(q.id);
 
               return (
-                <div key={q.id} className={styles.questionItem}>
+                <div
+                  key={q.id}
+                  id={`question-item-${q.id}`}
+                  className={`${styles.questionItem} ${
+                    hasError ? styles.questionItemError : ""
+                  }`}
+                >
                   {/* Question Meta: Number (Saffron Fraunces) & Category Tag (Teal Mulish) */}
                   <div className={styles.questionMeta}>
                     <span className={styles.questionNumber}>{q.number}</span>
                     <span className={styles.questionCategory}>{q.category}</span>
+                    <span
+                      className={styles.requiredMark}
+                      title="Rating is required"
+                      aria-label="Required"
+                    >
+                      *
+                    </span>
                   </div>
 
                   {/* Statement Text */}
                   <h3 className={styles.questionText}>{q.text}</h3>
+
+                  {/* Unrated Error Notice */}
+                  {hasError && (
+                    <div className={styles.ratingErrorNotice}>
+                      <span>Please select a rating (1 to 5 or N/A)</span>
+                    </div>
+                  )}
 
                   {/* Rating Controls: All in one single compact row (5 4 3 2 1 N/A) */}
                   <div
@@ -193,10 +241,10 @@ export const Sections: React.FC<SectionsProps> = ({
       ))}
 
       {/* Section F — Your Suggestions */}
-      {/* Section F - Suggestions */}
       <Card className={styles.sectionCard} variant="borderless">
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Section F — Your Suggestions</h2>
+          <p className={styles.sectionSubtitle}>Optional</p>
         </div>
 
         {/* Question 24 */}
@@ -240,7 +288,15 @@ export const Sections: React.FC<SectionsProps> = ({
           <span>Submit Feedback</span>
         </Button>
         <p className={styles.submitInfoText}>
-          {totalAnswered} of 23 statements answered • Your responses are 100% confidential
+          {totalAnswered === TOTAL_REQUIRED_STATEMENTS ? (
+            <span className={styles.submitInfoSuccess}>
+              ✓ All {TOTAL_REQUIRED_STATEMENTS} statements rated • Ready to submit • Your responses are 100% confidential
+            </span>
+          ) : (
+            <span>
+              {totalAnswered} of {TOTAL_REQUIRED_STATEMENTS} statements rated ({TOTAL_REQUIRED_STATEMENTS - totalAnswered} remaining) • Comments are optional • 100% confidential
+            </span>
+          )}
         </p>
       </div>
 
@@ -265,6 +321,14 @@ export const Sections: React.FC<SectionsProps> = ({
         </div>
       </Card>
     </div>
+  );
+};
+
+export const Sections: React.FC<SectionsProps> = (props) => {
+  return (
+    <App component={false}>
+      <SectionsContent {...props} />
+    </App>
   );
 };
 
