@@ -17,6 +17,8 @@ const TOTAL_REQUIRED_STATEMENTS = ALL_REQUIRED_QUESTIONS.length;
 
 const SectionsContent: React.FC<SectionsProps> = ({
   responses: propResponses,
+  aboutValues,
+  isSubmitting = false,
   onRatingChange,
   onCommentChange,
   onSuggestionChange,
@@ -84,7 +86,26 @@ const SectionsContent: React.FC<SectionsProps> = ({
 
   const totalAnswered = Object.keys(responses.ratings).length;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // 1. Check About You demographic selections if aboutValues is tracked
+    if (
+      aboutValues &&
+      (!aboutValues.company?.trim() ||
+        !aboutValues.department?.trim() ||
+        !aboutValues.tenure?.trim() ||
+        !aboutValues.roleLevel?.trim())
+    ) {
+      notify.warning(
+        "Please select your Company, Department, Tenure, and Role level in the 'About you' section."
+      );
+      const aboutElem = document.getElementById("about-you-section");
+      if (aboutElem) {
+        aboutElem.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    // 2. Validate all 23 statements
     const missingQuestions = ALL_REQUIRED_QUESTIONS.filter(
       (q) => !responses.ratings[q.id]
     );
@@ -108,9 +129,15 @@ const SectionsContent: React.FC<SectionsProps> = ({
       return;
     }
 
-    setIsSubmitted(true);
-    onSubmit?.(responses);
-    notify.success("Thank you for your feedback!");
+    if (onSubmit) {
+      const result = await onSubmit(responses);
+      if (result !== false) {
+        setIsSubmitted(true);
+      }
+    } else {
+      setIsSubmitted(true);
+      notify.success("Thank you for your feedback!");
+    }
   };
 
   if (isSubmitted) {
@@ -123,14 +150,6 @@ const SectionsContent: React.FC<SectionsProps> = ({
             Your feedback has been received. Your responses help us build culture, strengthen HR
             practices, and fuel sustainable growth across the Enggis Group of Companies.
           </p>
-          <Button
-            className={styles.submitBtn}
-            onClick={() => {
-              setIsSubmitted(false);
-            }}
-          >
-            Review or Edit Response
-          </Button>
         </Card>
       </div>
     );
@@ -281,11 +300,13 @@ const SectionsContent: React.FC<SectionsProps> = ({
         <Button
           type="primary"
           size="large"
+          loading={isSubmitting}
+          disabled={isSubmitting}
           className={styles.submitBtn}
           onClick={handleSubmit}
         >
           <Send size={18} />
-          <span>Submit Feedback</span>
+          <span>{isSubmitting ? "Submitting..." : "Submit Feedback"}</span>
         </Button>
         <p className={styles.submitInfoText}>
           {totalAnswered === TOTAL_REQUIRED_STATEMENTS ? (

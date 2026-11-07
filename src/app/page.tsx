@@ -5,18 +5,40 @@ import { ConfigProvider, App, theme } from "antd";
 import { HeroSection } from "@/features/samvaad-form/components/hero-section";
 import { AboutSection } from "@/features/samvaad-form/components/about-section";
 import { Sections } from "@/features/samvaad-form/components/sections";
-import { NotificationProvider } from "@/utils/notify";
-import type { FormResponses, RatingValue } from "@/features/samvaad-form/types";
+import { NotificationProvider, notify } from "@/utils/notify";
+import {
+  buildEmployeeFeedbackPayload,
+  submitEmployeeFeedback,
+} from "@/features/samvaad-form/services";
+import type {
+  AboutYouValues,
+  FormResponses,
+  RatingValue,
+} from "@/features/samvaad-form/types";
 
 export default function Home() {
+  const [aboutValues, setAboutValues] = useState<AboutYouValues>({
+    company: "",
+    department: "",
+    tenure: "",
+    roleLevel: "",
+  });
+
   const [responses, setResponses] = useState<FormResponses>({
     ratings: {},
     comments: {},
     suggestions: {
       startStopContinue: "",
       otherComments: "",
+      additionalSuggestions: "",
     },
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleAboutChange = (field: keyof AboutYouValues, value: string) => {
+    setAboutValues((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleRatingChange = (questionId: number, rating: RatingValue) => {
     setResponses((prev) => {
@@ -45,6 +67,29 @@ export default function Home() {
       ...prev,
       suggestions: { ...prev.suggestions, [field]: value },
     }));
+  };
+
+  const handleSubmit = async (formResponses: FormResponses): Promise<boolean> => {
+    setIsSubmitting(true);
+    try {
+      const payload = buildEmployeeFeedbackPayload(aboutValues, formResponses);
+      const result = await submitEmployeeFeedback(payload);
+
+      if (result?.success) {
+        notify.success(result.message || "Thank you for your feedback!");
+        return true;
+      } else {
+        notify.error(result?.message || "Failed to submit feedback. Please try again.");
+        return false;
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "An unexpected error occurred while submitting.";
+      notify.error(message);
+      return false;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const completedQuestions = Object.keys(responses.ratings).length;
@@ -84,12 +129,15 @@ export default function Home() {
         <NotificationProvider>
           <main style={{ minHeight: "100vh", backgroundColor: "var(--bg-page, #050E21)" }}>
             <HeroSection completedQuestions={completedQuestions} totalQuestions={23} />
-            <AboutSection />
+            <AboutSection values={aboutValues} onChange={handleAboutChange} />
             <Sections
               responses={responses}
+              aboutValues={aboutValues}
+              isSubmitting={isSubmitting}
               onRatingChange={handleRatingChange}
               onCommentChange={handleCommentChange}
               onSuggestionChange={handleSuggestionChange}
+              onSubmit={handleSubmit}
             />
           </main>
         </NotificationProvider>

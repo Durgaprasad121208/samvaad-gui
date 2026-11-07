@@ -86,7 +86,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
       </Card>
 
       {/* Card 2: About you */}
-      <Card className={styles.card} variant="borderless">
+      <Card id="about-you-section" className={styles.card} variant="borderless">
         <h2 className={styles.cardTitle}>About you</h2>
 
         {/* Company */}

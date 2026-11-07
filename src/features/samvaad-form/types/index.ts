@@ -42,16 +42,44 @@ export interface FormResponses {
   suggestions: {
     startStopContinue?: string;
     otherComments?: string;
+    additionalSuggestions?: string;
     keepDoing?: string;
     improveArea?: string;
     leadershipThoughts?: string;
   };
 }
 
+export interface FeedbackQuestionResponse {
+  section: string;
+  subheading: string;
+  questionText: string;
+  rating: string;
+  comment: string;
+}
+
+export interface EmployeeFeedbackPayload {
+  company: string;
+  department: string;
+  tenure: string;
+  roleLevel: string;
+  responses: FeedbackQuestionResponse[];
+  startStopContinue: string;
+  additionalSuggestions: string;
+}
+
+export interface EmployeeFeedbackApiResponse<T = unknown> {
+  success: boolean;
+  message?: string;
+  data?: T;
+  error?: string;
+}
+
 export interface SectionsProps {
   responses?: FormResponses;
+  aboutValues?: AboutYouValues;
+  isSubmitting?: boolean;
   onRatingChange?: (questionId: number, rating: RatingValue) => void;
   onCommentChange?: (questionId: number, comment: string) => void;
   onSuggestionChange?: (field: keyof FormResponses["suggestions"], value: string) => void;
-  onSubmit?: (responses: FormResponses) => void;
+  onSubmit?: (responses: FormResponses) => Promise<boolean | void> | void;
 }
