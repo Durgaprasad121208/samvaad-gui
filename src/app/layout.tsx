@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Employee Feedback Forum | Enggis Samvaad",
+  title: "Samvaad — Employee Feedback Forum",
   description: "A feedback forum to build culture and fuel growth across the Enggis Group of Companies.",
   icons: {
     icon: "/favicon.png",
