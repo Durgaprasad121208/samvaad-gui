@@ -151,42 +151,86 @@
   flex-shrink: 0;
 }
 
-/* Progress Section */
+/* ==========================================================================
+   Sticky Scroll Header (Appears only when scrolling UP past hero)
+   ========================================================================== */
+.stickyScrollHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(5, 14, 33, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(238, 231, 217, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, visibility 0.28s ease;
+  pointer-events: none;
+}
+
+.stickyScrollHeaderVisible {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.stickyInnerContainer {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.65rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Default Inline Progress Bar
+   ========================================================================== */
 .progressContainer {
   width: 100%;
   max-width: 920px;
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 }
 
 .progressBarWrapper {
   flex: 1;
 }
 
-/* Override Ant Design progress dark bar styles */
+/* Override Ant Design progress bar to match exact screenshot */
 .progressBarWrapper :global(.ant-progress) {
   margin: 0;
   line-height: 1;
 }
 
 .progressBarWrapper :global(.ant-progress .ant-progress-inner) {
-  background-color: var(--bg-tile, #19253B) !important;
-  border-radius: 9999px;
+  background-color: #243147 !important; /* Soft slate-blue pill track from screenshot */
+  border-radius: 9999px !important;
+  height: 8px !important;
+  overflow: hidden !important;
 }
 
 .progressBarWrapper :global(.ant-progress .ant-progress-bg) {
   background: var(--gradient-top-strip, linear-gradient(90deg, #E5B151 0%, #F7A329 50%, #4BC6C6 100%)) !important;
-  border-radius: 9999px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px !important;
+  height: 8px !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .progressLabel {
   font-family: var(--font-mulish);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: rgba(238, 231, 217, 0.65);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-primary, #EEE7D9);
   letter-spacing: 0.02em;
   min-width: 44px;
   text-align: right;
