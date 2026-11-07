@@ -173,12 +173,14 @@ export const Sections: React.FC<SectionsProps> = ({
                     </button>
                   </div>
 
-                  {/* Comments Box: Always visible single-line expandable input */}
+                  {/* Comments Box: Small textarea for each statement */}
                   <div className={styles.commentBoxWrapper}>
                     <TextArea
-                      autoSize={{ minRows: 1, maxRows: 4 }}
+                      size="small"
+                      rows={2}
                       placeholder="Comments (optional)"
-                      className={styles.commentInput}
+                      maxLength={1000}
+                      className={styles.statementCommentInput}
                       value={responses.comments[q.id] || ""}
                       onChange={(e) => handleCommentChange(q.id, e.target.value)}
                     />
