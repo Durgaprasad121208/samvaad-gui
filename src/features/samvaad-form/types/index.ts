@@ -18,10 +18,37 @@ export interface AboutSectionProps {
   onChange?: (field: keyof AboutYouValues, value: string) => void;
 }
 
-export interface FeedbackSection {
+export interface QuestionItem {
+  id: number;
+  number: string;
+  text: string;
+}
+
+export interface FeedbackSectionData {
   id: string;
-  code: string;
+  sectionCode: string;
   title: string;
   subtitle: string;
-  questionCount: number;
+  pillar: string;
+  questions: QuestionItem[];
+}
+
+export type RatingValue = "5" | "4" | "3" | "2" | "1" | "N/A";
+
+export interface FormResponses {
+  ratings: Record<number, RatingValue>;
+  comments: Record<number, string>;
+  suggestions: {
+    keepDoing?: string;
+    improveArea?: string;
+    leadershipThoughts?: string;
+  };
+}
+
+export interface SectionsProps {
+  responses?: FormResponses;
+  onRatingChange?: (questionId: number, rating: RatingValue) => void;
+  onCommentChange?: (questionId: number, comment: string) => void;
+  onSuggestionChange?: (field: keyof FormResponses["suggestions"], value: string) => void;
+  onSubmit?: (responses: FormResponses) => void;
 }
