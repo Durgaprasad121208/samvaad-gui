@@ -67,7 +67,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   "50%": "#F7A329",
                   "100%": "#4BC6C6",
                 }}
-                trailColor="#243147"
+                railColor="#243147"
                 size={["100%", 8]}
               />
             </ConfigProvider>
@@ -149,7 +149,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     "50%": "#F7A329",
                     "100%": "#4BC6C6",
                   }}
-                  trailColor="#243147"
+                  railColor="#243147"
                   size={["100%", 8]}
                 />
               </ConfigProvider>
