@@ -137,45 +137,41 @@ export const Sections: React.FC<SectionsProps> = ({
                   {/* Statement Text */}
                   <h3 className={styles.questionText}>{q.text}</h3>
 
-                  {/* Rating Controls: Row 1 = 5, 4, 3, 2, 1; Row 2 = N/A */}
+                  {/* Rating Controls: All in one single compact row (5 4 3 2 1 N/A) */}
                   <div
-                    className={styles.ratingControls}
+                    className={styles.ratingRow}
                     role="radiogroup"
                     aria-label={`Rating for question ${q.number}`}
                   >
-                    <div className={styles.ratingNumbersRow}>
-                      {RATING_NUMBERS.map((num) => {
-                        const isSelected = selectedRating === num;
-                        return (
-                          <button
-                            key={num}
-                            type="button"
-                            role="radio"
-                            aria-checked={isSelected}
-                            className={`${styles.ratingTileBtn} ${
-                              isSelected ? styles.ratingTileBtnSelected : ""
-                            }`}
-                            onClick={() => handleRatingSelect(q.id, num as RatingValue)}
-                          >
-                            {num}
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {RATING_NUMBERS.map((num) => {
+                      const isSelected = selectedRating === num;
+                      return (
+                        <button
+                          key={num}
+                          type="button"
+                          role="radio"
+                          aria-checked={isSelected}
+                          className={`${styles.ratingTileBtn} ${
+                            isSelected ? styles.ratingTileBtnSelected : ""
+                          }`}
+                          onClick={() => handleRatingSelect(q.id, num as RatingValue)}
+                        >
+                          {num}
+                        </button>
+                      );
+                    })}
 
-                    <div>
-                      <button
-                        type="button"
-                        role="radio"
-                        aria-checked={selectedRating === "N/A"}
-                        className={`${styles.ratingTileBtn} ${styles.naBtn} ${
-                          selectedRating === "N/A" ? styles.ratingTileBtnSelected : ""
-                        }`}
-                        onClick={() => handleRatingSelect(q.id, "N/A")}
-                      >
-                        N/A
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={selectedRating === "N/A"}
+                      className={`${styles.ratingTileBtn} ${styles.naBtn} ${
+                        selectedRating === "N/A" ? styles.ratingTileBtnSelected : ""
+                      }`}
+                      onClick={() => handleRatingSelect(q.id, "N/A")}
+                    >
+                      N/A
+                    </button>
                   </div>
 
                   {/* Comments Box: Always visible single-line expandable input */}
